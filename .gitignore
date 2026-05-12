@@ -1,3 +1,11 @@
+# PlatformIO
+.pio/
+.vscode/
+
+# System
+.DS_Store
+Thumbs.db
+
 # Prerequisites
 *.d
 
