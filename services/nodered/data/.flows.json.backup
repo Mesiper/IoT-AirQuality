@@ -1,0 +1,132 @@
+[
+    {
+        "id": "ead0f4868deb1c43",
+        "type": "tab",
+        "label": "Main",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "01f4d6096b4bedf4",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "mosquitto",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "de40c2955404bd7b",
+        "type": "influxdb",
+        "hostname": "influxdb",
+        "port": 8086,
+        "protocol": "http",
+        "database": "database",
+        "name": "influxdb",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "http://influxdb:8086",
+        "timeout": 10,
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "8731aaf59fc5fefc",
+        "type": "mqtt in",
+        "z": "ead0f4868deb1c43",
+        "name": "",
+        "topic": "DATA/#",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "01f4d6096b4bedf4",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 240,
+        "wires": [
+            [
+                "a8d37a64ce64e077"
+            ]
+        ]
+    },
+    {
+        "id": "05ea9d19ec20cf9c",
+        "type": "debug",
+        "z": "ead0f4868deb1c43",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 400,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "0056c50a06975048",
+        "type": "influxdb out",
+        "z": "ead0f4868deb1c43",
+        "influxdb": "de40c2955404bd7b",
+        "name": "",
+        "measurement": "m1",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "org1",
+        "bucket": "sensor_data",
+        "x": 610,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "a8d37a64ce64e077",
+        "type": "function",
+        "z": "ead0f4868deb1c43",
+        "name": "function 1",
+        "func": "msg.payload = msg.payload.air_quality;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 340,
+        "wires": [
+            [
+                "05ea9d19ec20cf9c",
+                "0056c50a06975048"
+            ]
+        ]
+    }
+]
