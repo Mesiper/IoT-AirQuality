@@ -41,3 +41,7 @@ If the PlatformIO toolbar is missing at the bottom of the screen, or if you see 
 2. Open the `ESP32-MP503` directory in **Visual Studio Code** (see note above).
 3. Verify your board's COM port in the Windows Device Manager and update `upload_port` and `monitor_port` in `platformio.ini` if necessary.
 4. Build and upload the code to the ESP32 using the PlatformIO sidebar.
+
+### 2. Docker servises
+Database, MQTT broker and Node-Red are lauched using docker.
+To launch all servises go to folder `IoT-AirQuality/servises` and enter command : `docker compose up` 
