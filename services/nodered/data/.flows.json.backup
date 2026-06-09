@@ -54,6 +54,33 @@
         "rejectUnauthorized": true
     },
     {
+        "id": "ad03f98bce650f87",
+        "type": "telegram bot",
+        "botname": "AirQualityBot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "testenvironment": false,
+        "updatemode": "polling",
+        "pollinterval": 300,
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": 6667,
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbothost": "0.0.0.0",
+        "localbotport": 8443,
+        "publicbotport": 8443,
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
         "id": "8731aaf59fc5fefc",
         "type": "mqtt in",
         "z": "ead0f4868deb1c43",
@@ -66,8 +93,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 130,
-        "y": 240,
+        "x": 110,
+        "y": 340,
         "wires": [
             [
                 "a8d37a64ce64e077"
@@ -83,11 +110,12 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 400,
-        "y": 220,
+        "x": 480,
+        "y": 140,
         "wires": []
     },
     {
@@ -104,8 +132,8 @@
         "retentionPolicyV18Flux": "",
         "org": "org1",
         "bucket": "sensor_data",
-        "x": 610,
-        "y": 280,
+        "x": 490,
+        "y": 340,
         "wires": []
     },
     {
@@ -125,8 +153,93 @@
         "wires": [
             [
                 "05ea9d19ec20cf9c",
-                "0056c50a06975048"
+                "0056c50a06975048",
+                "c07fa1448baa4489"
             ]
+        ]
+    },
+    {
+        "id": "c07fa1448baa4489",
+        "type": "switch",
+        "z": "ead0f4868deb1c43",
+        "name": "Check Threshold",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "200",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 510,
+        "y": 420,
+        "wires": [
+            [
+                "d993495056d6da8c"
+            ]
+        ]
+    },
+    {
+        "id": "d993495056d6da8c",
+        "type": "delay",
+        "z": "ead0f4868deb1c43",
+        "name": "Rate Limit",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "15",
+        "rateUnits": "minute",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 700,
+        "y": 420,
+        "wires": [
+            [
+                "1697e78875ab8e65"
+            ]
+        ]
+    },
+    {
+        "id": "1697e78875ab8e65",
+        "type": "function",
+        "z": "ead0f4868deb1c43",
+        "name": "Format Alert Message",
+        "func": "const targetChatId = \"7499105351\";\nconst alertText = \"⚠️ ALARM! Wykryto wysokie zanieczyszczenie powietrza. Odczyt z czujnika MP503 wynosi: \" + msg.payload;\n\nmsg.payload = {\n    chatId: targetChatId,\n    type: 'message',\n    content: alertText\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 420,
+        "wires": [
+            [
+                "67fa10736e13a883"
+            ]
+        ]
+    },
+    {
+        "id": "67fa10736e13a883",
+        "type": "telegram sender",
+        "z": "ead0f4868deb1c43",
+        "name": "Send Telegram Alert",
+        "bot": "ad03f98bce650f87",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1140,
+        "y": 420,
+        "wires": [
+            []
         ]
     }
 ]

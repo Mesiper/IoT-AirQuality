@@ -27,8 +27,8 @@ constexpr int SERIAL_MONITOR_BAUD_RATE = 115200;
 /**
  * @brief Wi-Fi network credentials.
  */
-constexpr auto WIFI_SSID     = "czar(nuch)prys";
-constexpr auto WIFI_PASSWORD = "nygger2137";
+constexpr auto WIFI_SSID     = "SSID";
+constexpr auto WIFI_PASSWORD = "PASSWORD";
 
 /**
  * @brief MQTT Broker settings. Replace with the IP of the laptop running Docker.
